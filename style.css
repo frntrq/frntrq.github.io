@@ -19,7 +19,9 @@ li {
 } */
 
 p {
-    font-size: 20px;
+    font-size: 24px;
+    color: #b9aeae;
+    line-height: 1.3em;
 }
 
 a {
@@ -47,6 +49,21 @@ h2 {
 h3 {
     font-family: 'Roboto', sans-serif;
     color: #ece3e3;
+    font-size: 2.5em;
+}
+
+h4 {
+    font-family: 'Roboto', sans-serif;
+    color: #ece3e3;
+    font-size: 2.0em;
+}
+
+q {
+    display: block;
+    font-size: 48px;
+    margin: 40px;
+    color: #d0b0b0;
+    line-height: 52px;
 }
 
 address {
@@ -139,6 +156,10 @@ main {
     width: 70%;
 }
 
+.container img {
+    width: 100%;
+}
+
 #about h1 {
  color: #ece3e3;
 }
@@ -202,6 +223,10 @@ main {
 /* Media Queries */
 
 @media (max-width: 800px) {
+    q {
+        margin: 45px 0;
+    }
+
     #header {
         justify-content: space-around;
     }
@@ -246,4 +271,30 @@ main {
         flex-direction: column;
         gap: 10px;
     }
+}
+
+/* BLOG */
+
+.blog-date-text {
+    margin: 0;
+}
+
+.post {
+    display: block;
+}
+
+/* BLOG POST */
+.blog-post {
+    width: 100%;
+}
+
+.note {
+    color: gray;
+    font-size: 20px;
+}
+
+.highlight {
+    font-size: 30px;
+    margin: 15px;
+    color: #c4bfd4;
 }

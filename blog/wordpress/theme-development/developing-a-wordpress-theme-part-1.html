@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../prism/prism.css">
+    <link rel="stylesheet" href="../../../style.css">
+    <title>Developing a WordPress Theme from Scratch - Part 1 | Faran Tariq</title>
+</head>
+<body>
+    <header>
+        <div id="header">
+            <div id="top-name">
+                <a href="https://frntrq.github.io/">Faran Tariq</a>
+            </div>
+            <div class="social">
+                <a href="mailto:frntrq@gmail.com"><img src="../../../images/gmail.png" alt="email"></a>
+                <a href="https://github.com/frntrq" target="_blank"><img src="../../../images/github.png" alt="github"></a>
+                <a href="https://twitter.com/frntrq" target="_blank"><img src="../../../images/twitter.png" alt="Twitter"></a>
+                <a href="https://www.linkedin.com/in/frntrq/" target="_blank"><img src="../../../images/linkedin.png" alt="linkedin"></a>
+                <a href="https://www.instagram.com/farantrq/" target="_blank"><img src="../../../images/instagram.png" alt="instagram"></a>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <a href="https://frntrq.github.io/"><span class="tooltip">Home</span><img src="../../../images/home.png" alt="home"></a>
+        <a href="https://frntrq.github.io/blog.html"><span class="tooltip">Blog</span><img src="../../../images/blog.png" alt="blog"></a>
+        <a href="https://frntrq.github.io/#work"><span class="tooltip">Projects</span><img src="../../../images/projects.png" alt="projects"></a>
+        <a href="https://frntrq.github.io/#about"><span class="tooltip">About</span><img src="../../../images/about.png" alt="about"></a>
+    </nav>
+    <main>
+        <div class="container">
+            <section id="work">
+                <h2>Developing a WordPress Theme from Scratch - Part 1</h2>
+                <div class="blog-post">
+                    <div class="highlight">Overview: We'll learn how to develop a WordPress theme from scratch.</div>
+
+                    <div class="highlight">Prerequisites: You should have some knowledge of HTML and CSS and have a local installation of WordPress on your Computer. <br>
+                    If you don't have have WordPress locally installed, you can install it through <a href="https://localwp.com/" target="_blank">Local by Flywheel</a>.</div>
+
+                    <h3>How WordPress Themes Work</h3>
+
+                    <p>WordPress themes are basically HTML and CSS(sometimes JavaScript too) webpages with the addition of WordPress "Template tags" and "Hooks"(We'll learn about Hooks later).</p>
+
+                    <q>Template tags are WordPress specific tags that make WordPress dynamic and customizable.</q>
+
+                    <p>If you've ever used a WordPress theme you may have seen what is known as "Customizer API".<br></p>
+
+                    <img src="./images/theme-development1/customizerapi.PNG" alt="Customizer API">
+
+                    <p>Customizer API is the white panel on the left with theme customization options.<br>
+                    Through the Customizer API you can change the colors and paddings etc. of your website. What makes the change happen under the hood? 'Template tags'. <br> Instead of hardcoding HTML and CSS values, to make the theme customizable, we place template tags in CSS and HTML that we want to make customizable.<br><br>
+                    For Example: To make the header background-color customizable we'll write something like this in our css: <code class="language-css">header {background-color: 'template tag'}</code>.</p>
+
+                    <p>Now that you have an understanding of how WordPress themes work, we'll start developing our theme.</p>
+
+                    <h3>Developing WordPress Theme</h3>
+
+                    <p>WordPress uses 'Template Files' to display pages, posts and sections of pages and posts. <br>
+
+                    <q>Template Files are PHP files that contain a mixture of HTML, Template Tags, and PHP code.</q>
+
+                    For example, to display the header of your site you can use 'header.php'.</p>
+
+                    <p>Technically only two files are required in a WordPress theme, these are: 'index.php' and 'style.css'. <br>
+                    index.php can be used as a catch-all template file, which is to say that if no other template files are used it will define how every single page and post is to be displayed. <br>
+                    style.css along with defining the css styling of the theme also provides WordPress with meta data about the theme, such as 'Theme name', 'Theme Author' etc.</p>
+
+                    <p>Head to your local WordPress installation and inside your themes folder create a folder with your theme name.</p>
+
+                    <img src="./images/theme-development1/newthemefolder.png" alt="">
+
+                    <p>Create a style.css file inside your theme folder. At the top of your style.css file you'll pass your theme's meta information.</p>
+
+<pre><code class="language-css">    /*
+    Theme Name: Twenty Twenty
+    Theme URI: https://wordpress.org/themes/twentytwenty/
+    Author: the WordPress team
+    Author URI: https://wordpress.org/
+    Description: Our default theme for 2020 is designed to take full advantage of the flexibility of the block editor. Organizations and businesses have the ability to create dynamic landing pages with endless layouts using the group and column blocks. The centered content column and fine-tuned typography also makes it perfect for traditional blogs. Complete editor styles give you a good idea of what your content will look like, even before you publish. You can give your site a personal touch by changing the background colors and the accent color in the Customizer. The colors of all elements on your site are automatically calculated based on the colors you pick, ensuring a high, accessible color contrast for your visitors.
+    Tags: blog, one-column, custom-background, custom-colors, custom-logo, custom-menu, editor-style, featured-images, footer-widgets, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-styles, wide-blocks, accessibility-ready
+    Version: 1.3
+    Requires at least: 5.0
+    Tested up to: 5.4
+    Requires PHP: 7.0
+    License: GNU General Public License v2 or later
+    License URI: http://www.gnu.org/licenses/gpl-2.0.html
+    Text Domain: twentytwenty
+    This theme, like WordPress, is licensed under the GPL..
+    Use it to make something cool, have fun, and share what you've learned with others
+    */</code></pre>
+                    <div class="note">Note: Theme Name, Author, Description, Version, Requires at least, Tested up to, Requires PHP, License, License URI and Text Domain are required in every theme.
+                    You can read more about the above meta information at <a href="https://developer.wordpress.org/themes/basics/main-stylesheet-style-css/" target="_blank">WordPress Main Stylesheet</a></div>
+                    
+
+                    <img src="./images/theme-development1/metainfo.PNG" alt="Meta Info">
+
+                    <p>Paste the above code at the top of your style.css file and make changes as you like. <br>
+                    Now create an index.php file.<br>
+                    Inside the index.php file create the basic HTML structure:</p>
+<pre><code class="language-php">    &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+            &lt;head&gt;
+                &lt;meta charset=&quot;UTF-8&quot;&gt;
+                &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+                &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+                &lt;title&gt;My New Theme&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+                &lt;h1&gt;Hello World&lt;/h1&gt;
+                &lt;p&gt;Hi, this is Faran.&lt;/p&gt;
+            &lt;/body&gt;
+        &lt;/html&gt;</code></pre>
+
+                    <p>Now lets head to our WordPress site and activate our theme.</p>
+
+                    <img src="./images/theme-development1/activatemynewtheme.PNG" alt="Theme activation">
+
+                    <p>This is how it looks:</p>
+
+                    <img src="./images/theme-development1/themebasicscr.PNG" alt="Theme Screenshot">
+
+                    <p>Well our theme is working now, however it is completely hardcoded and there is no way for a user to add content without modifying the code.</p>
+
+                    <p>We'll now add template tags to make the theme dynamic.</p>
+
+                    <p>bloginfo() is a WordPress template tag used to display information about the site. It can take in many different parameters to display different information about the website. You can see the full list of parameters here: <a href="https://developer.wordpress.org/reference/functions/bloginfo/">bloginfo()</a><br>
+                    Lets use it to display the Website name, description and charset.</p>
+
+<pre><code class="language-php"> &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+            &lt;head&gt;
+                &lt;meta charset=&quot;&lt;?php bloginfo( 'charset' ); ?&gt;&quot;&gt;
+                &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+                &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+                &lt;title&gt;My New Theme&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+                &lt;h1&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/h1&gt;
+                &lt;h2&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/p&gt;
+            &lt;/body&gt;
+        &lt;/html&gt;
+</code></pre>
+
+                    <img src="./images/theme-development1/siteafterbloginfo.PNG" alt="Theme Screenshot">
+
+                    <p>We can now see a dynamic site title and description, However we can't see any posts. To display posts WordPress uses what is known as 'The Loop'.</p>
+
+                    <h4>The Loop</h4>
+                    <p>The basic loop is:</p>
+<pre><code class="language-php">    &lt;?php 
+    if ( have_posts() ) : 
+        while ( have_posts() ) : the_post(); 
+            // Display something
+        endwhile; 
+    endif; 
+    ?&gt;</code></pre>
+
+                    <p>The loop checks if there are posts, if there are, it displays something which we spicify, for every post.<br>
+                       To display the title and content for every post we can add 'the_title()' and 'the_content()' template tags inside the while loop.</p>
+<pre><code class="language-php">    &lt;?php 
+    if ( have_posts() ) : 
+        while ( have_posts() ) : the_post(); 
+            the_title();
+            the_content();
+        endwhile; 
+    endif; 
+    ?&gt;</code></pre>
+
+                    <p>Your index.php should look like this:</p>
+<pre><code class="language-php">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;&lt;?php bloginfo( 'charset' ); ?&gt;&quot;&gt;
+            &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;My New Theme&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/h1&gt;
+            &lt;h2&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/p&gt;
+            &lt;?php 
+            if ( have_posts() ) : 
+                while ( have_posts() ) : the_post(); 
+                    the_title();
+                    the_content();
+                endwhile; 
+            endif; 
+            ?&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre>
+
+                    <img src="./images/theme-development1/aftertheloop.PNG" alt="Theme Screenshot">
+
+                    <p>We can now see the posts' titles and content but it's all mixed together, its hard to tell where a post starts and where it ends, so lets add an 'hr' tag to separate the posts. <br>
+
+                       There are two ways to add html inside php. <br>
+                       One is to use 'echo':</p>
+<pre><code class="language-php">    &lt;?php 
+    if ( have_posts() ) : 
+        while ( have_posts() ) : the_post(); 
+            the_title();
+            the_content();
+            echo '&lt;hr&gt;';
+        endwhile; 
+    endif; 
+    ?&gt;</code></pre>
+
+                    <p>Other is to close the php tag, add html, reopen php tag:</p>
+<pre><code class="language-php">    &lt;?php 
+    if ( have_posts() ) : 
+        while ( have_posts() ) : the_post(); 
+            the_title();
+            the_content();
+            ?&gt;
+            &lt;hr&gt;
+            &lt;?php
+        endwhile; 
+    endif; 
+    ?&gt;</code></pre>
+
+                    <p>Our site should look like this now:</p>
+                    <img src="./images/theme-development1/afterhr.PNG" alt="Theme Screenshot">
+
+                    <p>It doesn't look great but it works now. </p>
+
+                    <p>Let's change the background-color in our style.css.</p>
+
+<pre><code class="language-css">    /*
+    Theme Name: My New Theme
+    Theme URI: https://frntrq.github.io/
+    Author: Faran Tariq
+    Author URI: https://frntrq.github.io/
+    Description: New theme for my WordPress Tutorial
+    Version: 1.0
+    Requires at least: 5.0
+    Tested up to: 5.4
+    Requires PHP: 7.0
+    License: GNU General Public License v2 or later
+    License URI: http://www.gnu.org/licenses/gpl-2.0.html
+    Text Domain: mynewtheme
+    This theme, like WordPress, is licensed under the GPL.
+    Use it to make something cool, have fun, and share what you've learned with others.
+    */
+
+    body {
+        background-color: cadetblue;
+    }</code></pre>
+
+                    <p>Now lets link the syle.css with our index.php. To link style.css we use the 'get_stylesheet_uri()' template tag.</p>
+                    <div class="note">Note: Your stylesheet should be in the root directory of your theme.</div>
+<pre><code class="language-php">    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;&lt;?php bloginfo( 'charset' ); ?&gt;&quot;&gt;
+            &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;My New Theme&lt;/title&gt;
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo esc_url( get_stylesheet_uri() ); ?&gt;&quot; type=&quot;text/css&quot; /&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/h1&gt;
+            &lt;h2&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/p&gt;
+            &lt;?php 
+            if ( have_posts() ) : 
+                while ( have_posts() ) : the_post(); 
+                    the_title();
+                    the_content();
+                    echo '&lt;hr&gt;';
+                endwhile; 
+            endif; 
+            ?&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;</code></pre>
+
+                    <div class="note">Note: 'esc_url()' template tag is used to sanitize URLs which basically means that it removes any invalid and dangerous characters.</div>
+
+                    <img src="./images/theme-development1/linkedstyle.PNG" alt="Theme Screenshot">
+
+                    <p>This is what our theme looks like now.</p>
+
+                    <p>There are two important template tags that WordPress core and plugins use to insert scripts, style etc. in a theme. These are 'wp_head()' and 'wp_footer()'. <br>
+                       'wp_head' should be added before the closing head tag and 'wp_footer' should be added before the closing body tag.</p>
+
+<pre><code class="language-php">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;&lt;?php bloginfo( 'charset' ); ?&gt;&quot;&gt;
+            &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;My New Theme&lt;/title&gt;
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo esc_url( get_stylesheet_uri() ); ?&gt;&quot; type=&quot;text/css&quot; /&gt;
+            &lt;?php wp_head(); ?&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/h1&gt;
+            &lt;h2&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/p&gt;
+            &lt;?php 
+            if ( have_posts() ) : 
+                while ( have_posts() ) : the_post(); 
+                    the_title();
+                    the_content();
+                    echo '&lt;hr&gt;';
+                endwhile; 
+            endif; 
+            ?&gt;
+            &lt;?php wp_footer(); ?&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre>
+
+                    <img src="./images/theme-development1/wpheadandfooter.PNG" alt="Theme Screenshot">
+
+                    <p>There is not much change however if you are logged in your WordPress, admin bar should now appear at the top. The admin bar is loaded by wp_footer. <br>
+                    If you click the customize button at the top, customizer api will open up and there are already some customization options.</p>
+
+                    <img src="./images/theme-development1/customizeclick.PNG" alt="Theme Screenshot">
+
+                    <p>Still our site is not very customizable right now, all the posts are being loaded on one page and our theme is pretty basic. <br>
+
+                    In the next part we'll take this theme to the next level by adding more pages and files and adding more customization options among other things.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="../../../prism/prism.js"></script>
+</body>
+</html>
+
