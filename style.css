@@ -273,6 +273,12 @@ main {
     }
 }
 
+@media (max-width: 340px) {
+    q {
+        font-size: 35px;
+    }
+}
+
 /* BLOG */
 
 .blog-date-text {
@@ -286,6 +292,10 @@ main {
 /* BLOG POST */
 .blog-post {
     width: 100%;
+}
+
+.blog-post-date {
+    color: gray;
 }
 
 .note {
