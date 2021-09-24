@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5JFQRGK');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../prism/prism.css">
+    <link rel="stylesheet" href="../../../style.css">
+    <title>Developing a WordPress Theme from Scratch(2021) - Part 2 | Faran Tariq</title>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JFQRGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+        <div id="header">
+            <div id="top-name">
+                <a href="https://frntrq.github.io/">Faran Tariq</a>
+            </div>
+            <div class="social">
+                <a href="mailto:frntrq@gmail.com"><img src="../../../images/gmail.png" alt="email"></a>
+                <a href="https://github.com/frntrq" target="_blank"><img src="../../../images/github.png" alt="github"></a>
+                <a href="https://twitter.com/frntrq" target="_blank"><img src="../../../images/twitter.png" alt="Twitter"></a>
+                <a href="https://www.linkedin.com/in/frntrq/" target="_blank"><img src="../../../images/linkedin.png" alt="linkedin"></a>
+                <a href="https://www.instagram.com/farantrq/" target="_blank"><img src="../../../images/instagram.png" alt="instagram"></a>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <a href="https://frntrq.github.io/"><span class="tooltip">Home</span><img src="../../../images/home.png" alt="home"></a>
+        <a href="https://frntrq.github.io/blog.html"><span class="tooltip">Blog</span><img src="../../../images/blog.png" alt="blog"></a>
+        <a href="https://frntrq.github.io/#work"><span class="tooltip">Projects</span><img src="../../../images/projects.png" alt="projects"></a>
+        <a href="https://frntrq.github.io/#about"><span class="tooltip">About</span><img src="../../../images/about.png" alt="about"></a>
+    </nav>
+    <main>
+        <div class="container">
+            <section id="work">
+                <h2>Developing a WordPress Theme from Scratch - Part 2</h2>
+                <div class="blog-post">
+                    <span class="blog-post-date">Date posted: 25-Sep-2021</span>
+                    <div class="highlight">This is the second part of our WordPress Theme Development tutorial.</div>
+                    <div class="note">Haven't seen <a href="https://frntrq.github.io/blog/wordpress/theme-development/developing-a-wordpress-theme-part-1.html">Part 1</a>?</div>
+                    <p>This is where we left off:</p>
+                     
+                    <img src="./images/theme-development1/customizeclick.PNG" alt="Theme Screenshot">
+
+                    <h3>Adding a Navigation</h3>
+                    <p>Lets start by adding a navigation. <br>To add navigation we'll create a new file 'functions.php'.</p>
+                    <q>The functions.php file behaves like a WordPress plugin, adding features and functionality to a WordPress site. You can use it to call WordPress functions and to define your own functions.</q>
+                    <p>Inside functions.php we'll register our navigation: </p>
+<pre><code class="language-php">    &lt;?php
+    function register_my_menu() {
+        register_nav_menus(
+            array(
+                'header-menu' =&gt; 'Header Menu',
+            )
+        );
+    }
+    add_action( 'init', 'register_my_menu' );
+    ?&gt;
+</code></pre>
+                    <p>Explanation: First we declare a function named 'register_my_menu', you don't need to call your function 'register_my_menu', you can call it whatever you want. Then we use a WordPress built-in function 'register_nav_menu' to register a menu by providing location(header-menu) and description(Header Menu). Finally we use an action <a href="https://developer.wordpress.org/plugins/hooks/" target="_blank">Hook</a> to run our function when WordPress has finished loading using the <a href="https://developer.wordpress.org/reference/hooks/init/" target="_blank">init</a> hook.</p>
+                    <p>Now to display the header we have to use the 'wp_nav_menu()' function at the location where we want to display the nav.</p>
+                    <p>Lets add the navigation after the opening body tag inside our index.php:</p>
+
+<pre><code class="language-php">    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;&lt;?php bloginfo( 'charset' ); ?&gt;&quot;&gt;
+            &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;My New Theme&lt;/title&gt;
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo esc_url( get_stylesheet_uri() ); ?&gt;&quot; type=&quot;text/css&quot; /&gt;
+            &lt;?php wp_head(); ?&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;?php 
+            wp_nav_menu(
+                array(
+                    'theme_location' =&gt; 'header-menu'
+                )
+            );
+            ?&gt;
+            &lt;h1&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/h1&gt;
+            &lt;h2&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/p&gt;
+            &lt;?php 
+            if ( have_posts() ) : 
+                while ( have_posts() ) : the_post(); 
+                    the_title();
+                    the_content();
+                    echo '&lt;hr&gt;';
+                endwhile; 
+            endif; 
+            ?&gt;
+            &lt;?php wp_footer(); ?&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+</code></pre>
+                    <img src="./images/theme-development2/nav.PNG" alt="Theme Screenshot">
+                    <p>We can use the 'menu' class to style the navigation menu in our css.</p>
+<pre><code class="language-css">.menu {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: gray;
+}
+</code></pre>
+                    <img src="./images/theme-development2/stylednav.PNG" alt="Theme Screenshot">
+                    <h3>Adding Pagination</h3>
+                    <p>To add pagination we'll use 'the_posts_pagination()' template tag inside our index.php.</p>
+<pre><code class="language-php">&lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        &lt;head&gt;
+            &lt;meta charset=&quot;&lt;?php bloginfo( 'charset' ); ?&gt;&quot;&gt;
+            &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+            &lt;title&gt;My New Theme&lt;/title&gt;
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo esc_url( get_stylesheet_uri() ); ?&gt;&quot; type=&quot;text/css&quot; /&gt;
+            &lt;?php wp_head(); ?&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;?php 
+            wp_nav_menu(
+                array(
+                    'theme_location' =&gt; 'header-menu'
+                )
+            );
+            ?&gt;
+            &lt;h1&gt;&lt;?php bloginfo( 'name' ); ?&gt;&lt;/h1&gt;
+            &lt;h2&gt;&lt;?php bloginfo( 'description' ); ?&gt;&lt;/p&gt;
+            &lt;?php 
+            if ( have_posts() ) : 
+                while ( have_posts() ) : the_post(); 
+                    the_title();
+                    the_excerpt();
+                    echo '&lt;hr&gt;';
+                endwhile; 
+            endif; 
+            the_posts_pagination();
+            ?&gt;
+            &lt;?php wp_footer(); ?&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+}</code></pre>
+                    <img src="./images/theme-development2/pagination.PNG" alt="Theme Screenshot">
+                    <h3>Adding a Footer</h3>
+                    <pre><code class="language-php">&lt;footer&gt;
+    &lt;p&gt;Developed by Faran Tariq&lt;/p&gt;
+    &lt;?php wp_footer(); ?&gt;
+&lt;/footer&gt;</code></pre>
+<pre><code class="language-css">footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    margin: 30px 0 0 0;
+    height: 70px;
+}</code></pre>
+                    <img src="./images/theme-development2/footer.PNG" alt="Theme Screenshot">
+                    <h3>Updating the Posts</h3>
+                    <p>Right now every post on the homepage is displaying its complete content. We are going to change it so that on the homepage only an excerpt of the content is displayed and to view the complete content user will have to click on the post.</p>
+                    <p>To do that we'll change 'the_content()' template tag to 'the_excerpt()' and add the post link in the title tag so that the user can open the full post.</p>
+                    <pre><code class="language-php">if ( have_posts() ) : 
+while ( have_posts() ) : the_post(); 
+    the_title( '&lt;h2&gt;&lt;a href=&quot;' . get_permalink() . '&quot;&gt;', '&lt;/a&gt;&lt;/h2&gt;' );
+    the_excerpt();
+    echo '&lt;hr&gt;';
+endwhile; 
+endif; </code></pre>
+                    <div class="note">Note: get_permalink() returns the link of the current post.</div>
+                    <img src="./images/theme-development2/postexcerpt.PNG" alt="Theme Screenshot">
+                    <p>Everything looks fine. However, there's a problem, if you click on any of the posts to read the full content, it will still only show the excerpt.</p>
+                    <img src="./images/theme-development2/excerptedpost.PNG" alt="Theme Screenshot">
+                    <p>The reason this is happening is because we only have one template file 'index.php'. Our 'index.php' is dictating how every page is to be displayed, whether it's the Homepage or a single post page. And since we have changed 'the_content' to 'the_excerpt' it will display post excerpt on every page.</p>
+                    <p>The solution to our problem is simple, we'll have to check whether it's a single post, if it is, we'll show the complete content, if it's not, we'll show the excerpt.</p>
+                    <pre><code class="language-php">if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        if( is_singular() ) {
+            the_title( '&lt;h2&gt;', '&lt;/h2&gt;' );
+            the_content();
+        }
+        else {
+            the_title( '&lt;h2&gt;&lt;a href=&quot;' . get_permalink() . '&quot;&gt;', '&lt;/a&gt;&lt;/h2&gt;' );
+            the_excerpt();
+            echo '&lt;hr&gt;';
+        }
+    endwhile; 
+endif;
+</code></pre>
+                    <img src="./images/theme-development2/fullpost.PNG" alt="Theme Screenshot">
+                    <p>Lets also add post thumbnails to the posts using 'the_post_thumbnail()' template tag.</p>
+                    <pre><code class="language-php">if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        if( is_singular() ) {
+            the_post_thumbnail();
+            the_title( '&lt;h2&gt;', '&lt;/h2&gt;' );
+            the_content();
+        }
+        else {
+            the_post_thumbnail();
+            the_title( '&lt;h2&gt;&lt;a href=&quot;' . get_permalink() . '&quot;&gt;', '&lt;/a&gt;&lt;/h2&gt;' );
+            the_excerpt();
+            echo '&lt;hr&gt;';
+        }
+    endwhile; 
+endif; 
+</code></pre>
+                    <img src="./images/theme-development2/postthumbnails.PNG" alt="Theme Screenshot">
+                    <p>To add a before and after post link:</p>
+                    <pre><code class="language-php">if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        if( is_singular() ) {
+            the_post_thumbnail();
+            the_title( '&lt;h2&gt;', '&lt;/h2&gt;' );
+            the_content();
+            previous_post_link();
+            next_post_link(); 
+        }
+        else {
+            the_post_thumbnail();
+            the_title( '&lt;h2&gt;&lt;a href=&quot;' . get_permalink() . '&quot;&gt;', '&lt;/a&gt;&lt;/h2&gt;' );
+            the_excerpt();
+            echo '&lt;hr&gt;';
+        }
+    endwhile; 
+endif; </code></pre>
+                    <img src="./images/theme-development2/nextpostandprevpost.PNG" alt="Theme Screenshot">
+                    <p>Our theme is pretty much complete now. In the next part of this tutorial we'll learn how to add more customization options in the Customizer API.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="../../../prism/prism.js"></script>
+</body>
+</html>
+
